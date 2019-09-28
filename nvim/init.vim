@@ -1,20 +1,19 @@
 call plug#begin('~/.local/share/nvim/plugged')
-Plug 'phanviet/vim-monokai-pro'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
-Plug 'scrooloose/nerdtree'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-surround'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'mattn/emmet-vim'
-Plug 'w0rp/ale'
+  Plug 'phanviet/vim-monokai-pro'
+  Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
+  Plug 'pangloss/vim-javascript'
+  Plug 'mxw/vim-jsx'
+  Plug 'scrooloose/nerdtree'
+  Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-surround'
+  Plug 'ctrlpvim/ctrlp.vim'
+  Plug 'mattn/emmet-vim'
+  Plug 'w0rp/ale'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
-set clipboard^=unnamed
+set clipboard+=unnamedplus
 set relativenumber
 set background=dark
 set termguicolors
@@ -62,7 +61,3 @@ let g:NERDTreeWinPos = "left"
 set tabstop=2
 set shiftwidth=2
 set expandtab
-
-" Autocomplete
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#ternjs#types = 1
