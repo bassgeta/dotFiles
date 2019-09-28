@@ -1,187 +1,113 @@
+; Colors
 
-# i3 config file (v4)
-#
-# Please see https://i3wm.org/docs/userguide.html for a complete reference!
+[colors]
+darkGrey = #2e3440
 
-set $mod Mod4
+trans = #DA292b2e
+white = #e5e9f0
+grey = #4c566a
+dirtyWhite = #d8dee9
+green = #8fbcbb
+turquoise = #88c0d0
+blue = #81a1c1
+darkBlue = 5e81ac
 
-###### KEYBINDINGS #######
+;
+; Bars
+;
 
-floating_modifier $mod
+[bar/i3boi]
+font-0 = Misc Termsyn:size=13:style=Regular
+font-1 = Noto Sans Symbols2:size=11:style=Regular;+2
+font-2 = DejaVu Sans:size=11:style=Regular;+2
+font-3 = FontAwesome:size=11:style=Regular;+2
 
+modules-right = battery backlight pulseaudio network date time
+modules-left = i3
+modules-center = cpu memory
+width = 100%
+background = ${colors.darkGrey}
+module-margin = 1
 
-# change focus
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
+tray-position = right
+tray-padding = 2
+;tray-background = #0063ff
+tray-detached = false
+tray-offset-y = 0
 
-# alternatively, you can use the cursor keys:
-bindsym $mod+Left  focus left
-bindsym $mod+Down  focus down
-bindsym $mod+Up    focus up
-bindsym $mod+Right focus right
+;
+;Modules
+;
 
-# move focused window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
+[module/date]
+interval = 1.0
+type = internal/date
+date=%A, %d %b %Y%
+time = %H:%M
+format = <label>
+label = %{F#81a1c1} %date%  %time%
+label-font = 6
 
-# alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left  move left
-bindsym $mod+Shift+Down  move down
-bindsym $mod+Shift+Up    move up
-bindsym $mod+Shift+Right move right
+[module/pulseaudio]
+type = internal/pulseaudio
+use-ui-max = true
 
-# split in horizontal and vertical orientation
-bindsym $mod+b split h
-bindsym $mod+v split v
+interval = 5
 
-# enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen toggle
+format-volume = %{F#81a1c1}<ramp-volume> <label-volume>
 
-# change container layout (stacked, tabbed, toggle split)
-bindsym $mod+t layout tabbed
-bindsym $mod+s layout stacked
-bindsym $mod+e layout toggle split
+label-muted = 🔇
+label-muted-foreground = ${colors.darkBlue}
 
-# toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
-bindsym $mod+o sticky toggle
+; Only applies if <ramp-volume> is used
+ramp-volume-0 = 🔈
+ramp-volume-1 = 🔉
+ramp-volume-2 = 🔊
 
-# change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+[module/i3]
 
-# focus the parent container
-bindsym $mod+p focus parent
+type = internal/i3
+pin-workspaces = true
+strip-wsnumbers = true
+index-sort = true
 
-#Volume and brightness
-###### EXECUTE PROGRAMS ######
+ws-icon-default = " ● "
 
-#bindsym $mod+\       exec i3lock
-bindsym $mod+w       exec dolphin
-bindsym $mod+Return  exec termite
-bindsym $mod+Shift+q      kill
+format = <label-state> <label-mode>
 
-bindsym --release Shift+Print exec scrot -s
+label-mode = " %mode% "
+label-mode-foreground = ${colors.green}
+label-mode-background = ${colors.darkGrey}
 
-# switch to workspace
-bindsym $mod+1 workspace 1
-bindsym $mod+2 workspace 2
-bindsym $mod+3 workspace 3
-bindsym $mod+4 workspace 4
-bindsym $mod+5 workspace 5
-bindsym $mod+6 workspace 6
-bindsym $mod+7 workspace 7
-bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace 9
-bindsym $mod+0 workspace 10
+; focused = Active workspace on focused monitor
+label-focused = ⬤ %index%
+label-focused-foreground = ${colors.dirtyWhite}
+label-focused-background = ${colors.blue}
+label-focused-padding = 1
 
-# move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace 1
-bindsym $mod+Shift+2 move container to workspace 2
-bindsym $mod+Shift+3 move container to workspace 3
-bindsym $mod+Shift+4 move container to workspace 4
-bindsym $mod+Shift+5 move container to workspace 5
-bindsym $mod+Shift+6 move container to workspace 6
-bindsym $mod+Shift+7 move container to workspace 7
-bindsym $mod+Shift+8 move container to workspace 8
-bindsym $mod+Shift+9 move container to workspace 9
-bindsym $mod+Shift+0 move container to workspace 10
+; unfocused = Inactive workspace on any monitor
+label-unfocused = ○ %index%
+label-unfocused-foreground = ${colors.blue}
+label-unfocused-background = ${colors.darkGrey}
+label-unfocused-padding = 1
 
-# reload the configuration file
-bindsym $mod+Shift+c reload
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
-# exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+[module/cpu]
+type = internal/cpu
 
-mode "resize" {
-        # resize windows
-        bindsym l resize shrink width 30 px or 10 ppt
-        bindsym j resize grow height 30 px or 10 ppt
-        bindsym k resize shrink height 30 px or 10 ppt
-        bindsym h resize grow width 30 px or 10 ppt
+; Seconds to sleep between updates
+; Default: 1
+interval = 1
+format = <label> %{F#81a1c1}
 
-        # resize gaps
-        bindsym minus       gaps outer current plus 10
-        bindsym plus        gaps outer current minus 10
-        bindsym Shift+minus gaps inner current plus 10
-        bindsym Shift+plus  gaps inner current minus 10
+; Available tokens:
+;   %percentage% (default) - total cpu load averaged over all cores
+;   %percentage-sum% - Cumulative load on all cores
+;   %percentage-cores% - load percentage for each core
+;   %percentage-core[1-9]% - load percentage for specific core
+label = %{F#88c0d0} %percentage%%
 
-        # move windows
-        bindsym Shift+l move right 30
-        bindsym Shift+j move down 30
-        bindsym Shift+k move up 30
-        bindsym Shift+h move left 30
-
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-        bindsym $mod+r mode "default"
-}
-
-mode "display" {
-
-        # toggle compton modes
-        bindsym f exec "killall compton; compton -b --inactive-dim 0.2"
-        bindsym n exec "killall compton; compton -b"
-
-        bindsym h move workspace to output left
-        bindsym l move workspace to output right
-
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-}
-
-bindsym $mod+r mode "resize"
-bindsym $mod+m mode "display"
-
-#Multi monitor shizzle
-bindsym $mod+Shift+greater move container to output right
-bindsym $mod+Shift+less move container to output left
-bindsym $mod+greater move workspace to output right
-bindsym $mod+less move workspace to output left
-bindsym $mod+Shift+m exec xrandr --output DP-3 --off
-bindsym $mod+Shift+n exec /home/kerry/.config/polybar/launch.sh
-bindsym $mod+Shift+b exec /home/kerry/.screenlayout/work.sh
-
-for_window [class="client.focused"] border pixel 3
-gaps inner 10
-gaps outer 10
-
-bindsym $mod+d exec dmenu_run
-
-set $coloract #88c0d0
-set $colorin #5e81ac
-set $colorBrightBorder #8fbcbb
-
-font pango:monospace 8
-new_window pixel 5
-######### COLORS ##########
-# class                 border    backgr    text    indicator child_border
-client.focused          $coloract #285577 #ffffff $colorBrightBorder $coloract
-client.focused_inactive $colorin #5f676a #ffffff $colorin   $colorin
-client.unfocused        $colorin  #222222 #888888 $colorin   $colorin
-client.urgent           #2f343a $colorBrightBorder #ffffff $colorBrightBorder   $colorBrightBorder
-client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
-
-# Volume and brightness
-# Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volum
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
-
-# Sreen brightness controls
-bindsym XF86MonBrightnessUp exec light -A 10 # increase screen brightness
-bindsym XF86MonBrightnessDown exec light -U 10 # decrease screen brightnesse
-
-bindsym --release Print exec xfce4-screenshooter
-###### STARTUP ######
-
-#exec --no-startup-id feh --bg-scale ~/Pictures/Wallpapers/yelloHouse.jpg
-exec --no-startup-id compton -b --config ~/.config/compton/compton.conf
-exec_always --no-startup-id ~/.config/polybar/launch.sh &amp;
-exec --no-startup-id nitrogen --restore &
-exec xset +fp /home/kerry/.fonts
-exec xset fp rehash
+[module/memory]
+interval = 1
+type = internal/memory
+format = %{F#88c0d0}<label>
+label =  %gb_used%
