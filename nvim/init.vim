@@ -88,11 +88,3 @@ let NERDTreeShowHidden=1
 set tabstop=2
 set shiftwidth=2
 set expandtab
-" Autocomplete
-" let g:deoplete#enable_at_startup = 1
-" let g:deoplete#sources#ternjs#types = 1
-
-" Dart
-let dart_html_in_string=v:true
-let dart_style_guide = 2
-let dart_format_on_save = 1

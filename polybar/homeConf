@@ -1,0 +1,113 @@
+; Colors
+
+[colors]
+darkGrey = #2e3440
+
+trans = #DA292b2e
+white = #e5e9f0
+grey = #4c566a
+dirtyWhite = #d8dee9
+green = #8fbcbb
+turquoise = #88c0d0
+blue = #81a1c1
+darkBlue = 5e81ac
+
+;
+; Bars
+;
+
+[bar/i3boi]
+font-0 = Misc Termsyn:size=13:style=Regular
+font-1 = Noto Sans Symbols2:size=11:style=Regular;+2
+font-2 = DejaVu Sans:size=11:style=Regular;+2
+font-3 = FontAwesome:size=11:style=Regular;+2
+
+modules-right = battery backlight pulseaudio network date time
+modules-left = i3
+modules-center = cpu memory
+width = 100%
+background = ${colors.darkGrey}
+module-margin = 1
+
+tray-position = right
+tray-padding = 2
+;tray-background = #0063ff
+tray-detached = false
+tray-offset-y = 0
+
+;
+;Modules
+;
+
+[module/date]
+interval = 1.0
+type = internal/date
+date=%A, %d %b %Y%
+time = %H:%M
+format = <label>
+label = %{F#81a1c1} %date%  %time%
+label-font = 6
+
+[module/pulseaudio]
+type = internal/pulseaudio
+use-ui-max = true
+
+interval = 5
+
+format-volume = %{F#81a1c1}<ramp-volume> <label-volume>
+
+label-muted = 🔇
+label-muted-foreground = ${colors.darkBlue}
+
+; Only applies if <ramp-volume> is used
+ramp-volume-0 = 🔈
+ramp-volume-1 = 🔉
+ramp-volume-2 = 🔊
+
+[module/i3]
+
+type = internal/i3
+pin-workspaces = true
+strip-wsnumbers = true
+index-sort = true
+
+ws-icon-default = " ● "
+
+format = <label-state> <label-mode>
+
+label-mode = " %mode% "
+label-mode-foreground = ${colors.green}
+label-mode-background = ${colors.darkGrey}
+
+; focused = Active workspace on focused monitor
+label-focused = ⬤ %index%
+label-focused-foreground = ${colors.dirtyWhite}
+label-focused-background = ${colors.blue}
+label-focused-padding = 1
+
+; unfocused = Inactive workspace on any monitor
+label-unfocused = ○ %index%
+label-unfocused-foreground = ${colors.blue}
+label-unfocused-background = ${colors.darkGrey}
+label-unfocused-padding = 1
+
+[module/cpu]
+type = internal/cpu
+
+; Seconds to sleep between updates
+; Default: 1
+interval = 1
+format = <label> %{F#81a1c1}
+
+; Available tokens:
+;   %percentage% (default) - total cpu load averaged over all cores
+;   %percentage-sum% - Cumulative load on all cores
+;   %percentage-cores% - load percentage for each core
+;   %percentage-core[1-9]% - load percentage for specific core
+label = %{F#88c0d0} %percentage%%
+
+[module/memory]
+interval = 1
+type = internal/memory
+format = %{F#88c0d0}<label>
+label =  %gb_used%
