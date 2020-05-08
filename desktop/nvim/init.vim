@@ -16,6 +16,8 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 call plug#end()
 
+set nobackup
+set nowritebackup
 set clipboard=unnamedplus
 set relativenumber
 set background=dark
@@ -25,9 +27,10 @@ colorscheme monokai_pro
 set statusline+=%{fugitive#statusline()}
 let g:mta_use_matchparen_group = 1
 " Eslint
+let g:ale_fixers = ['prettier', 'eslint']
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['eslint'],
+\   'javascript': ['eslint', 'prettier'],
 \}
 let g:ale_sign_error = '>>'
 let g:ale_sign_warning = '--'
@@ -57,9 +60,9 @@ endfunction
 
 nnoremap <C-F> :call GrepInput()<CR>
 "Tabs
-nnoremap <C-Left> :tabprevious<CR>
-nnoremap <C-Right> :tabnext<CR>
-nnoremap <C-Up> :tabclose<CR>
+nnoremap <A-h> :tabprevious<CR>
+nnoremap <A-l> :tabnext<CR>
+nnoremap <A-k> :tabclose<CR>
 nnoremap <A-1> 1gt
 nnoremap <A-2> 2gt
 nnoremap <A-3> 3gt
@@ -88,3 +91,11 @@ let NERDTreeShowHidden=1
 set tabstop=2
 set shiftwidth=2
 set expandtab
+" Autocomplete
+" let g:deoplete#enable_at_startup = 1
+" let g:deoplete#sources#ternjs#types = 1
+
+" Dart
+let dart_html_in_string=v:true
+let dart_style_guide = 2
+let dart_format_on_save = 1
