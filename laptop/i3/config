@@ -170,6 +170,14 @@ bindsym $mod+d exec rofi -font "Inconsolata 14" -show-icons -show drun
 bindsym $mod+Shift+d exec rofi -font "Inconsolata 14" -show-icons -show window
 
 # wpgtk overwrite this
+# music player
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+bindsym $mod+Ctrl+space exec playerctl play-pause
+bindsym $mod+Ctrl+m exec playerctl next
+bindsym $mod+Ctrl+n exec playerctl previous
+
 
 set $coloract #ff922b
 #set $colorin #ff0000
@@ -204,7 +212,10 @@ bindsym --release Print exec flameshot gui
 for_window [instance="origin.exe"] floating enable
 #exec --no-startup-id ~/.config/wpg/wp_init.sh
 
-exec --no-startup-id feh --bg-scale ~/Pictures/Wallpapers/yelloHouse.jpg
+exec --no-startup-id feh --bg-scale ~/Pictures/Wallpapers/mountains.jpg
 exec --no-startup-id compton -b --config ~/.config/compton/compton.conf
 exec --no-startup-id dunst --config ~/.config/dunst/dunstrc
 exec_always --no-startup-id ~/.config/polybar/launch.sh &amp;
+
+# Enable prime-offloading, which is used by optimus-manager.
+exec --no-startup-id "prime-offload"
