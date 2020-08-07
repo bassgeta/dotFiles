@@ -13,7 +13,14 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'terryma/vim-multiple-cursors'
   Plug 'dart-lang/dart-vim-plugin'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'jremmen/vim-ripgrep'
+  Plug 'easymotion/vim-easymotion'
+  Plug 'vim-python/python-syntax'
+  Plug 'leafgarland/typescript-vim'
+  Plug 'peitalin/vim-jsx-typescript'
   Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+  Plug 'jparise/vim-graphql'
+  Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 call plug#end()
 
 set nobackup
@@ -27,10 +34,15 @@ colorscheme monokai_pro
 set statusline+=%{fugitive#statusline()}
 let g:mta_use_matchparen_group = 1
 " Eslint
-let g:ale_fixers = ['prettier', 'eslint']
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\   'typescript': ['tsserver', 'tslint']
+\}
+
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['eslint', 'prettier'],
+\   'javascript': ['prettier', 'eslint'],
+\   'typescript': ['prettier', 'tslint']
 \}
 let g:ale_sign_error = '>>'
 let g:ale_sign_warning = '--'
@@ -55,7 +67,7 @@ function! GrepInput()
   call inputsave()
   let pattern = input('Pattern: ')
   call inputrestore()
-  execute '!grep -RIn --exclude-dir=node_modules '.pattern
+  execute 'Rg -i -S --vimgrep '.pattern
 endfunction
 
 nnoremap <C-F> :call GrepInput()<CR>
@@ -94,8 +106,44 @@ set expandtab
 " Autocomplete
 " let g:deoplete#enable_at_startup = 1
 " let g:deoplete#sources#ternjs#types = 1
-
 " Dart
 let dart_html_in_string=v:true
 let dart_style_guide = 2
 let dart_format_on_save = 1
+
+" easymotion
+
+" Jump to anywhere you want with minimal keystrokes, with just one key binding.
+" `s{char}{label}`
+map <Leader> <Plug>(easymotion-prefix)
+" Turn on case-insensitive feature
+nmap <Leader>s <Plug>(easymotion-overwin-f2)
+
+" Turn on case-insensitive feature
+let g:EasyMotion_smartcase = 1
+
+" JK motions: Line motions
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+nmap <Leader>l <Plug>(easymotion-overwin-line)
+
+" cwce
+set signcolumn=yes
+
+" Use tab for trigger completion with characters ahead and navigate.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" python
+let g:python_highlight_all = 1
