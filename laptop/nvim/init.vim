@@ -8,19 +8,17 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-surround'
   Plug 'ctrlpvim/ctrlp.vim'
-  Plug 'mattn/emmet-vim'
-  Plug 'w0rp/ale'
-  Plug 'terryma/vim-multiple-cursors'
-  Plug 'dart-lang/dart-vim-plugin'
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'dense-analysis/ale'
   Plug 'jremmen/vim-ripgrep'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'neoclide/coc-tsserver'
   Plug 'easymotion/vim-easymotion'
   Plug 'vim-python/python-syntax'
   Plug 'leafgarland/typescript-vim'
   Plug 'peitalin/vim-jsx-typescript'
-  Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
   Plug 'jparise/vim-graphql'
   Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+  Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 call plug#end()
 
 set nobackup
@@ -30,6 +28,8 @@ set relativenumber
 set background=dark
 set termguicolors
 colorscheme monokai_pro
+" ctrl p
+let g:ctrlp_use_caching = 0
 " Fugitive (oneline)
 set statusline+=%{fugitive#statusline()}
 let g:mta_use_matchparen_group = 1
@@ -144,6 +144,8 @@ endfunction
 
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
+" coc ts
+nmap <silent> \gd :vsplit<CR><Plug>(coc-definition)
 
 " python
 let g:python_highlight_all = 1
