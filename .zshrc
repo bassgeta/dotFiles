@@ -62,7 +62,7 @@ ZSH_THEME="risto"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git, zsh-autosuggestions)
+plugins=(git zsh-autosuggestions)
 
 # User configuration
 
@@ -95,11 +95,14 @@ export WALLPAPER_PATH="~/Pictures/Wallpapers/yelloHouse.jpg"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+export VISUAL=nvim
+export EDITOR="$VISUAL"
 alias ll="ls -la"
 alias ..="cd .."
 alias gcam="git commit -a -m"
 alias vim="nvim"
 alias vi="nvim"
+alias killTheWhales="docker container stop $(docker container list -q)"
 TERM="xterm-256color"
 
 #ZSH_TMUX_AUTOSTART=true
