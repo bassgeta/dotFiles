@@ -12,6 +12,7 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'jremmen/vim-ripgrep'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'neoclide/coc-tsserver'
+  Plug 'fannheyward/coc-pyright'
   Plug 'easymotion/vim-easymotion'
   Plug 'vim-python/python-syntax'
   Plug 'leafgarland/typescript-vim'
@@ -36,13 +37,15 @@ let g:mta_use_matchparen_group = 1
 " Eslint
 let g:ale_linters = {
 \   'javascript': ['eslint'],
-\   'typescript': ['tsserver', 'tslint']
+\   'typescript': ['tsserver', 'tslint'],
+\   'vue': ['eslint']
 \}
 
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['prettier', 'eslint'],
-\   'typescript': ['prettier', 'tslint']
+\   'typescript': ['prettier', 'tslint'],
+\   'vue': ['prettier']
 \}
 let g:ale_sign_error = '>>'
 let g:ale_sign_warning = '--'
@@ -61,7 +64,7 @@ let g:multi_cursor_skip_key            = '<C-x>'
 let g:multi_cursor_quit_key            = '<Esc>'
 
 "Ctrl-P
-set wildignore+=*/node_modules/*,*/coverage/*,*/bower_components/*,*.so,*.swp,*.zip
+set wildignore+=*/node_modules/*,*/coverage/*,*/android/*,*/bower_components/*,*.so,*.swp,*.zip
 
 function! GrepInput()
   call inputsave()
@@ -142,10 +145,24 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
 " coc ts
-nmap <silent> \gd :vsplit<CR><Plug>(coc-definition)
+function! CreateCocBindings() abort
+  map <buffer> <C-a> :CocAction
+  map <buffer> K :call CocAction("doHover")
+  map <buffer> g/ :call CocAction("rename")
+  map <buffer> Q :call CocAction("format")
+  map <buffer> Q :call CocAction("formatSelected")
+  map <buffer> <c-]> <Plug>(coc-definition)
+  map <buffer> gt <Plug>(coc-type-definition)
+  map <buffer> gD <Plug>(coc-implementation)
+  map <buffer> gr <Plug>(coc-references)
+  map <buffer> [v <Plug>(coc-diagnostic-prev-error)
+  map <buffer> ]v <Plug>(coc-diagnostic-next-error)
+  map <buffer> [V <Plug>(coc-diagnostic-prev)
+  map <buffer> ]V <Plug>(coc-diagnostic-next)
+  inoremap <buffer><silent><expr> <c-space> coc#refresh()
+  map <silent> \gd :vsplit<CR><Plug>(coc-definition)
+endfunction
 
 " python
 let g:python_highlight_all = 1
