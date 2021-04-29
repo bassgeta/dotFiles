@@ -1,1 +1,4 @@
-{}
+{
+  "eslint.filetypes": ["javascript", "javascriptreact", "typescript"],
+  "eslint.autoFixOnSave": true
+}

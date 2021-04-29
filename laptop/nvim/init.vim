@@ -8,19 +8,18 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-surround'
   Plug 'ctrlpvim/ctrlp.vim'
-  Plug 'dense-analysis/ale'
   Plug 'jremmen/vim-ripgrep'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  Plug 'neoclide/coc-tsserver'
   Plug 'fannheyward/coc-pyright'
   Plug 'easymotion/vim-easymotion'
   Plug 'vim-python/python-syntax'
   Plug 'leafgarland/typescript-vim'
   Plug 'peitalin/vim-jsx-typescript'
   Plug 'jparise/vim-graphql'
-  Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
   Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 call plug#end()
+
+" also coc install tsserver and eslint
 
 set nobackup
 set nowritebackup
@@ -34,34 +33,6 @@ let g:ctrlp_use_caching = 0
 " Fugitive (oneline)
 set statusline+=%{fugitive#statusline()}
 let g:mta_use_matchparen_group = 1
-" Eslint
-let g:ale_linters = {
-\   'javascript': ['eslint'],
-\   'typescript': ['tsserver', 'tslint'],
-\   'vue': ['eslint']
-\}
-
-let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['prettier', 'eslint'],
-\   'typescript': ['prettier', 'tslint'],
-\   'vue': ['prettier']
-\}
-let g:ale_sign_error = '>>'
-let g:ale_sign_warning = '--'
-let g:ale_fix_on_save = 1
-"Multiple cursors
-let g:multi_cursor_use_default_mapping=0
-
-" Default mapping
-let g:multi_cursor_start_word_key      = '<C-d>'
-let g:multi_cursor_select_all_word_key = '<A-n>'
-let g:multi_cursor_start_key           = 'g<C-d>'
-let g:multi_cursor_select_all_key      = 'g<A-n>'
-let g:multi_cursor_next_key            = '<C-d>'
-let g:multi_cursor_prev_key            = '<C-s>'
-let g:multi_cursor_skip_key            = '<C-x>'
-let g:multi_cursor_quit_key            = '<Esc>'
 
 "Ctrl-P
 set wildignore+=*/node_modules/*,*/coverage/*,*/android/*,*/bower_components/*,*.so,*.swp,*.zip
@@ -93,6 +64,11 @@ nmap <C-h> <C-w>h
 nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
 nmap <C-l> <C-w>l
+
+nmap <A-C-h> :vertical resize -10<CR>
+nmap <A-C-l> :vertical resize +10<CR>
+nmap <A-C-j> :resize +10<CR>
+nmap <A-C-k> :resize -10<CR>
 " Nerdtree
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
