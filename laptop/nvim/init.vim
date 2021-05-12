@@ -121,24 +121,18 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+let g:coc_global_extensions = [
+\ 'coc-tsserver',
+\ 'coc-eslint',
+\ 'coc-prettier'
+\ ]
 " coc ts
-function! CreateCocBindings() abort
-  map <buffer> <C-a> :CocAction
-  map <buffer> K :call CocAction("doHover")
-  map <buffer> g/ :call CocAction("rename")
-  map <buffer> Q :call CocAction("format")
-  map <buffer> Q :call CocAction("formatSelected")
-  map <buffer> <c-]> <Plug>(coc-definition)
-  map <buffer> gt <Plug>(coc-type-definition)
-  map <buffer> gD <Plug>(coc-implementation)
-  map <buffer> gr <Plug>(coc-references)
-  map <buffer> [v <Plug>(coc-diagnostic-prev-error)
-  map <buffer> ]v <Plug>(coc-diagnostic-next-error)
-  map <buffer> [V <Plug>(coc-diagnostic-prev)
-  map <buffer> ]V <Plug>(coc-diagnostic-next)
-  inoremap <buffer><silent><expr> <c-space> coc#refresh()
-  map <silent> \gd :vsplit<CR><Plug>(coc-definition)
-endfunction
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
+map <C-a> :CocAction<CR>
+map <silent> gy <Plug>(coc-type-definition)
+map <silent> \gd :vsplit<CR><Plug>(coc-definition)
+nnoremap <silent> K :call CocAction('doHover')<CR>
+inoremap <silent><expr> <c-space> coc#refresh()
 
 " python
 let g:python_highlight_all = 1
