@@ -5,13 +5,15 @@ include-file = ~/.config/polybar/wobblys.ini
 [bar/i3boi]
 
 line-size = 3
-font-0 = xos4 Terminus:size=13:style=Regular;2
-font-1 = Iosevka Nerd Font:style=Medium:size=16;3
+font-0 = Terminus:size=15:style=Regular;2
+font-1 = Font Awesome 5 Free:style=Solid;3
+font-2 = Font Awesome 5 Free:size=23:style=Solid;3
 
+module-padding = 8
 monitor=${env:MONITOR:}
-modules-right = wobblygreen battery wobblyred backlight wobblyorange pulseaudio wobblyyellow network wobblyblue date wobblypurple time
+modules-right = battery backlight pulseaudio network date time
 modules-left = i3 spotify
-modules-center = wobblydarkorangeleft cpu memory wobblydarkorangeright
+modules-center = wobblysystemblueleft cpu memory wobblysystemblueright
 width = 100%
 background = #aa000000
 
