@@ -5,21 +5,22 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'pangloss/vim-javascript'
   Plug 'mxw/vim-jsx'
   Plug 'scrooloose/nerdtree'
+  Plug 'jremmen/vim-ripgrep'
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-surround'
   Plug 'ctrlpvim/ctrlp.vim'
-  Plug 'jremmen/vim-ripgrep'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  Plug 'fannheyward/coc-pyright'
-  Plug 'easymotion/vim-easymotion'
-  Plug 'vim-python/python-syntax'
   Plug 'leafgarland/typescript-vim'
   Plug 'peitalin/vim-jsx-typescript'
   Plug 'jparise/vim-graphql'
   Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+  "Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 call plug#end()
 
 " also coc install tsserver and eslint
+
+let g:airline_extensions = []
+let g:airline_highlighting_cache = 1
 
 set nobackup
 set nowritebackup
@@ -31,9 +32,8 @@ colorscheme monokai_pro
 " ctrl p
 let g:ctrlp_use_caching = 0
 " Fugitive (oneline)
-set statusline+=%{fugitive#statusline()}
+set statusline+=%{FugitiveStatusline()}
 let g:mta_use_matchparen_group = 1
-
 "Ctrl-P
 set wildignore+=*/node_modules/*,*/coverage/*,*/android/*,*/bower_components/*,*.so,*.swp,*.zip
 
@@ -129,10 +129,9 @@ let g:coc_global_extensions = [
 " coc ts
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 map <C-a> :CocAction<CR>
+map <C-d> :CocDiagnostics<CR>
 map <silent> gy <Plug>(coc-type-definition)
 map <silent> \gd :vsplit<CR><Plug>(coc-definition)
 nnoremap <silent> K :call CocAction('doHover')<CR>
 inoremap <silent><expr> <c-space> coc#refresh()
 
-" python
-let g:python_highlight_all = 1
