@@ -2,17 +2,17 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'neovim/nvim-lspconfig'
   Plug 'phanviet/vim-monokai-pro'
   Plug 'glepnir/lspsaga.nvim'
-  Plug 'vim-airline/vim-airline'
-  Plug 'vim-airline/vim-airline-themes'
+  Plug 'hoob3rt/lualine.nvim'
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-surround'
+  Plug 'jremmen/vim-ripgrep'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
+  Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
   Plug 'scrooloose/nerdtree'
   Plug 'hrsh7th/nvim-compe'
-  Plug 'ray-x/lsp_signature.nvim'
+  Plug 'lukas-reineke/format.nvim'
 call plug#end()
 
 " General
@@ -91,23 +91,16 @@ nmap <A-C-l> :vertical resize +10<CR>
 nmap <A-C-j> :resize +10<CR>
 nmap <A-C-k> :resize -10<CR>
 
+"autocmd BufWritePre *.ts lua vim.lsp.buf.formatting_sync(nil, 2000)
+"autocmd BufWritePre *.tsx lua vim.lsp.buf.formatting_sync(nil, 1000)
+"autocmd BufWritePre *.js lua vim.lsp.buf.formatting_sync(nil, 1000)
+"autocmd BufWritePre *.jsx lua vim.lsp.buf.formatting_sync(nil, 1000)
+augroup Format
+    autocmd!
+    autocmd BufWritePost * FormatWrite
+augroup END
 lua << EOF
 local nvim_lsp = require 'lspconfig'
-
-local format_async = function(err, _, result, _, bufnr)
-    if err ~= nil or result == nil then return end
-    if not vim.api.nvim_buf_get_option(bufnr, "modified") then
-        local view = vim.fn.winsaveview()
-        vim.lsp.util.apply_text_edits(result, bufnr)
-        vim.fn.winrestview(view)
-        if bufnr == vim.api.nvim_get_current_buf() then
-            vim.api.nvim_command("noautocmd :update")
-        end
-    end
-end
-
-vim.lsp.handlers["textDocument/formatting"] = format_async
-
 
 -- TypeScript
 nvim_lsp.tsserver.setup {
@@ -123,15 +116,43 @@ local on_attach = function(client, bufnr)
   local opts = { noremap=true, silent=true }
   buf_set_keymap('n', '<Leader>gd', ':vsplit<cr><Cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', '<Leader>gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', '<Leader>ty', '<Cmd>lua vim.lsp.buf.formatting_sync(nil, 2000)<CR>', opts)
   buf_set_keymap('n', '<C-]>', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   buf_set_keymap('n', '<Leader>gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  if client.resolved_capabilities.document_formatting then
-    vim.api.nvim_command [[augroup Format]]
-    vim.api.nvim_command [[autocmd! * <buffer>]]
-    vim.api.nvim_command [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync()]]
-    vim.api.nvim_command [[augroup END]]
-  end
 end
+
+require('lualine').setup {
+  options = {
+    icons_enabled = false,
+    theme = 'dracula',
+  },
+}
+
+require("format").setup {
+  javascript = {
+      {cmd = {"prettier -w", "eslint --fix"}}
+  },
+  typescript = {
+      {cmd = {"prettier -w", "eslint --fix"}}
+  },
+  typescriptreact = {
+      {cmd = {"prettier -w", "eslint --fix"}}
+  },
+}
+
+require('telescope').setup {
+  extensions = {
+    fzf = {
+      fuzzy = true,                    -- false will only do exact matching
+      override_generic_sorter = true,  -- override the generic sorter
+      override_file_sorter = true,     -- override the file sorter
+      case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+                                       -- the default case_mode is "smart_case"
+    }
+  }
+}
+
+require('telescope').load_extension('fzf')
 
 local saga = require 'lspsaga'
 saga.init_lsp_saga()
@@ -157,8 +178,6 @@ require'nvim-treesitter.configs'.setup {
     "css"
   },
 }
-
-require "lsp_signature".setup()
 
 local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
 parser_config.tsx.used_by = { "javascript", "typescript.tsx" }
@@ -195,29 +214,6 @@ nvim_lsp.diagnosticls.setup {
       typescript = 'eslint',
       typescriptreact = 'eslint',
     },
-    formatters = {
-      eslint_d = {
-        command = 'eslint_d',
-        args = { '--stdin', '--stdin-filename', '%filename', '--fix-to-stdout' },
-        rootPatterns = { '.git' },
-      },
-      prettier = {
-        command = 'prettier',
-        args = { '--stdin-filepath', '%filename' }
-      }
-    },
-    formatFiletypes = {
-      css = 'prettier',
-      javascript = 'eslint_d',
-      javascriptreact = 'eslint_d',
-      json = 'prettier',
-      scss = 'prettier',
-      less = 'prettier',
-      typescript = 'prettier',
-      typescriptreact = 'prettier',
-      json = 'prettier',
-      markdown = 'prettier',
-    }
   }
 }
 
