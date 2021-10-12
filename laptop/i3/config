@@ -72,7 +72,7 @@ bindsym $mod+p focus parent
 
 #bindsym $mod+\       exec i3lock
 bindsym $mod+u exec firefox
-bindsym $mod+Return  exec termite
+bindsym $mod+Return  exec alacritty
 bindsym $mod+Shift+q      kill
 
 # switch to workspace
@@ -152,11 +152,10 @@ bindsym $mod+Shift+less move container to output left
 bindsym $mod+greater move workspace to output right
 bindsym $mod+less move workspace to output left
 
-bindsym $mod+Shift+n exec /home/kerry/.config/polybar/launch.sh
-bindsym $mod+Shift+F1 exec /home/kerry/.screenlayout/justLaptop.sh
-bindsym $mod+Shift+F2 exec /home/kerry/.screenlayout/work.sh
-bindsym $mod+Shift+F3 exec /home/kerry/.screenlayout/4kboy.sh
-bindsym $mod+Shift+F4 exec /home/kerry/.screenlayout/home.sh
+bindsym $mod+Shift+n exec /home/bassgeta/.config/polybar/launch.sh
+bindsym $mod+Shift+F1 exec /home/bassgeta/.screenLayout/justLaptop.sh
+bindsym $mod+Shift+F2 exec /home/bassgeta/.screenLayout/work.sh
+bindsym $mod+Shift+F3 exec /home/bassgeta/.screenLayout/home.sh
 
 bindsym $mod+Shift+i exec "setxkbmap us"
 bindsym $mod+Shift+o exec "setxkbmap si"
@@ -165,9 +164,9 @@ for_window [class="client.focused"] border pixel 3
 gaps inner 10
 gaps outer 10
 
-bindsym $mod+Shift+s exec rofi -font "Inconsolata 14"  -show run
-bindsym $mod+d exec rofi -font "Inconsolata 14" -show-icons -show drun
-bindsym $mod+Shift+d exec rofi -font "Inconsolata 14" -show-icons -show window
+bindsym $mod+Shift+s exec rofi -font "Inconsolata 16"  -show run
+bindsym $mod+d exec rofi -font "Inconsolata 16" -show-icons -show drun
+bindsym $mod+Shift+d exec rofi -font "Inconsolata 16" -show-icons -show window
 
 # wpgtk overwrite this
 # music player
@@ -212,7 +211,7 @@ bindsym --release Print exec flameshot gui
 for_window [instance="origin.exe"] floating enable
 #exec --no-startup-id ~/.config/wpg/wp_init.sh
 
-exec --no-startup-id feh --bg-scale ~/Pictures/Wallpapers/mountains.jpg
+exec --no-startup-id feh --bg-scale ~/Pictures/matterhorn.jpg
 exec --no-startup-id picom -b --config ~/.config/picom/picom.conf
 exec --no-startup-id dunst --config ~/.config/dunst/dunstrc
 exec_always --no-startup-id ~/.config/polybar/launch.sh &amp;
