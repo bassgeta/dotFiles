@@ -87,10 +87,10 @@ lua << EOF
   local nvim_lsp = require 'lspconfig'
 
   local on_attach = function(client, bufnr)
-    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end  
-    local function buf_set_option(...)
-      vim.api.nvim_buf_set_option(bufnr, ...)
-    end
+    local function buf_set_keymap(...)
+      bufNumber = bufnr and bufnr or 0
+      vim.api.nvim_buf_set_keymap(bufNumber, ...) 
+    end  
 
     client.resolved_capabilities.document_formatting = true 
     -- Mappings.
@@ -210,12 +210,20 @@ lua << EOF
     on_attach = function(client)
       client.resolved_capabilities.document_formatting = false 
       on_attach(client) -- idk this was throwing errors
+      flags = {
+        -- This will be the default in neovim 0.7+
+        debounce_text_changes = 150,
+      }
     end
   }
 
   -- enable when eslint ca read json files :(
   nvim_lsp.eslint.setup {
     on_attach = on_attach,
+    flags = {
+      -- This will be the default in neovim 0.7+
+      debounce_text_changes = 150,
+    }
   }
 
   require'compe'.setup {
