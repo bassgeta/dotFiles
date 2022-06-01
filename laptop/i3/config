@@ -216,5 +216,10 @@ exec --no-startup-id picom -b --config ~/.config/picom/picom.conf
 exec --no-startup-id dunst --config ~/.config/dunst/dunstrc
 exec_always --no-startup-id ~/.config/polybar/launch.sh &amp;
 
+# zoom
+for_window [class="zoom"] floating enable
+for_window [class="zoom" title="Zoom - Licensed Account"] floating disable
+for_window [class="zoom" title="Zoom Meeting"] floating disable
+
 # Enable prime-offloading, which is used by optimus-manager.
-exec --no-startup-id "prime-offload"
+#exec --no-startup-id "prime-offload"

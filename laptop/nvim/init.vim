@@ -13,6 +13,7 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'scrooloose/nerdtree'
   Plug 'hrsh7th/nvim-compe'
   Plug 'mhartington/formatter.nvim'
+  Plug 'github/copilot.vim'
 call plug#end()
 
   " General
@@ -54,7 +55,14 @@ call plug#end()
   nnoremap <silent> \dd <cmd>Telescope lsp_document_diagnostics<cr>
   nnoremap <silent> \\ <cmd>Telescope buffers<cr>
   nnoremap <silent> ;; <cmd>Telescope help_tags<cr>
-  nnoremap <silent> <leader>66 :Format<CR>
+
+" Formatter
+nnoremap <silent> <leader>66 :Format<CR>
+
+augroup FormatAutogroup
+  autocmd!
+  autocmd BufWritePost * FormatWrite
+augroup END
 
 "Tabs
 nnoremap <A-h> :tabprevious<CR>
@@ -82,6 +90,7 @@ nmap <A-C-j> :resize +10<CR>
 nmap <A-C-k> :resize -10<CR>
 
 "autocmd BufWritePre <buffer> <cmd>EslintFixAll<CR>
+autocmd BufWritePre *.tsx,*.ts,*.jsx,*.js EslintFixAll
 
 lua << EOF
   local nvim_lsp = require 'lspconfig'
@@ -203,7 +212,7 @@ lua << EOF
   }
 
   local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-  parser_config.tsx.used_by = { "javascript", "typescript.tsx", "typescript", "typescriptreact" }
+  parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx", "typescript", "typescriptreact" }
 
   -- TypeScript
   nvim_lsp.tsserver.setup {
@@ -223,6 +232,16 @@ lua << EOF
     flags = {
       -- This will be the default in neovim 0.7+
       debounce_text_changes = 150,
+    }
+  }
+
+  nvim_lsp.stylelint_lsp.setup{
+    settings = {
+      stylelintplus = {
+        -- see available options in stylelint-lsp documentation
+        autoFixOnFormat = true,
+        autoFixOnSave = true
+      }
     }
   }
 

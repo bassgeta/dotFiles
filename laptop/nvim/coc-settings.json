@@ -1,7 +1,7 @@
 {
   "eslint.filetypes": ["javascript", "javascriptreact", "typescript"],
   "eslint.autoFixOnSave": true,
-  "coc.preferences.formatOnSaveFiletypes2": ["css", "javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "coc.preferences.formatOnSaveFiletypes": ["css", "javascript", "javascriptreact", "typescript", "typescriptreact"],
   "tsserver.trace.server": "verbose",
   "suggest.enablePreview": true
 }

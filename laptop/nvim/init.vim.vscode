@@ -1,0 +1,54 @@
+function! Cond(Cond, ...)
+  let opts = get(a:000, 0, {})
+  return a:Cond ? opts : extend(opts, { 'on': [], 'for': [] })
+endfunction
+
+call plug#begin('~/.local/share/nvim/plugged')
+  Plug 'neovim/nvim-lspconfig', Cond(!exists('g:vscode'))
+  Plug 'jose-elias-alvarez/nvim-lsp-ts-utils', Cond(!exists('g:vscode'))
+  Plug 'jose-elias-alvarez/null-ls.nvim', Cond(!exists('g:vscode'))
+  Plug 'williamboman/nvim-lsp-installer', Cond(!exists('g:vscode'))
+  Plug 'phanviet/vim-monokai-pro', Cond(!exists('g:vscode'))
+  Plug 'hoob3rt/lualine.nvim', Cond(!exists('g:vscode'))
+  Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-surround'
+  Plug 'jremmen/vim-ripgrep', Cond(!exists('g:vscode'))
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}, Cond(!exists('g:vscode'))
+  Plug 'nvim-lua/plenary.nvim', Cond(!exists('g:vscode'))
+  Plug 'nvim-telescope/telescope.nvim', Cond(!exists('g:vscode'))
+  Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }, Cond(!exists('g:vscode'))
+  Plug 'scrooloose/nerdtree', Cond(!exists('g:vscode'))
+  Plug 'hrsh7th/nvim-compe', Cond(!exists('g:vscode'))
+  Plug 'mhartington/formatter.nvim', Cond(!exists('g:vscode'))
+call plug#end()
+
+" General
+if exists('g:vscode')
+  "Tabs
+  nnoremap <A-h> :tabprevious<CR>
+  nnoremap <A-l> :tabnext<CR>
+  nnoremap <A-k> :tabclose<CR>
+  nnoremap <A-1> 1gt
+  nnoremap <A-2> 2gt
+  nnoremap <A-3> 3gt
+  nnoremap <A-4> 4gt
+  nnoremap <A-5> 5gt
+  nnoremap <A-6> 6gt
+  nnoremap <A-7> 7gt
+  nnoremap <A-8> 8gt
+  nnoremap <A-9> 9gt
+  nnoremap <A-0> :tablast<CR>
+
+  nmap <C-h> <C-w>h
+  nmap <C-j> <C-w>j
+  nmap <C-k> <C-w>k
+  nmap <C-l> <C-w>l
+
+  nmap <A-C-h> :vertical resize -10<CR>
+  nmap <A-C-l> :vertical resize +10<CR>
+  nmap <A-C-j> :resize +10<CR>
+  nmap <A-C-k> :resize -10<CR>
+else
+  source "./pure.vim"
+endif
+
