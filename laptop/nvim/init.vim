@@ -197,6 +197,12 @@ lua << EOF
     }
   }
 
+  -- Svelte
+  require'lspconfig'.svelte.setup{}
+
+  -- Python
+  require'lspconfig'.pyright.setup{}
+
   -- require('telescope').load_extension('fzf')
 
   require'nvim-treesitter.configs'.setup {
@@ -218,7 +224,8 @@ lua << EOF
       "html",
       "scss",
       "css",
-      "svelte"
+      "svelte",
+      "python"
     },
   }
 
