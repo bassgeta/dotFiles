@@ -6,6 +6,13 @@ This guide beats the surrounding code. The codebases are messy; don't copy a bad
 @~/.claude/style/backend.md
 @~/.claude/style/frontend.md
 @~/.claude/style/testing.md
+@~/.claude/ops/devops.md
+
+## Infra operations (GCP, Secret Manager, Cloud Run)
+
+- Never run `gcloud` (or any infra CLI) yourself, not even read-only. Paste ready-to-run commands built from the DevOps guide above; the user runs them and pastes back the output
+- Never read secret contents
+- Preview environment uses `{env}=preview` (e.g. `request-api-preview`, `request-api-preview-app-config`)
 
 ## Philosophy
 
@@ -79,3 +86,4 @@ This guide beats the surrounding code. The codebases are messy; don't copy a bad
 - Terse and technical: conclusion first, then bullets, tables and `file.ts:120` refs. No prose paragraphs, no restating the question
 - Copy-paste deliverables (PR descriptions, issue bodies, commit messages, docs snippets) go out as raw markdown in a fenced code block
 - Never hard-wrap copy-paste markdown: one line per paragraph or bullet, however long. Structural newlines (headings, bullets, blank lines, fences) stay
+- Slack team notifications: tag `@tech-team` first, then what we're doing, then why, then anything that needs attention. Short, no extra explanation
